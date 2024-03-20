@@ -79,29 +79,14 @@ async def main():
     
     async with session_pool() as session:
         repo = RequestsRepo(session)
-        emoDiaryNotifications = await services.get_notifications_this_hour(repo, current_hour, "emodiary")
-        emotionNotificationText = await repo.interface.get_messageTextNotification('emotionNotification')
-        emotionNotificationButtons = await repo.interface.get_ButtonLablesNotification('emotionNotification')
-        
-        emotionNotificationMarkup = {
-            'en': StandardButtonMenu(emotionNotificationButtons['en']),
-            'ru': StandardButtonMenu(emotionNotificationButtons['ru'])
-        }
+        broadcastText = await repo.interface.get_ButtonLables('broadcast')
 
-        ntrNotifications = await services.get_notifications_this_hour(repo, current_hour, "ntr")
-        ntrNotificationText = await repo.interface.get_messageTextNotification('ntrNotification')
-        ntrNotificationButtons = await repo.interface.get_ButtonLablesNotification('ntrNotification')
-        ntrNotificationMarkup = {
-            'en': StandardButtonMenu(ntrNotificationButtons['en']),
-            'ru': StandardButtonMenu(ntrNotificationButtons['ru'])
-        }
         async with bot.session: 
-            countEmotionNotifications = await services.broadcastNotifications(bot,emoDiaryNotifications,emotionNotificationText, reply_markup=emotionNotificationMarkup, repo=repo)
-            countNTFNotifications = await services.broadcastNotifications(bot,ntrNotifications,ntrNotificationText, reply_markup=ntrNotificationMarkup, repo=repo)
+            broadcast = await services.broadcast(bot,broadcastText,config.tg_bot.admin_ids, repo=repo)
 
 
             
-    logging.info(f"Regular notifications were sent. NO of emotion notifications: {countEmotionNotifications}. NO of NTR notifications: {countNTFNotifications}")
+    logging.info(f"Regular notifications were sent. with status. Number of sent messages: {broadcast}.")
     
 
     
@@ -125,7 +110,8 @@ if __name__ == "__main__":
         while True:
             schedule.run_pending()
             time.sleep(1)
-
+        #for debugging:
+            
         # asyncio.run(main())
 
     except (KeyboardInterrupt, SystemExit):

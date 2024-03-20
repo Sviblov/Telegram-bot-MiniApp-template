@@ -9,10 +9,10 @@ from infrastructure.database.repo.requests import RequestsRepo
 from infrastructure.database.models import notification_setting
 
 
-async def broadcastNotifications(
+async def broadcast(
     bot: Bot,
-    notifications: list[notification_setting],
-    text,
+    broadcastText: str,
+    users: list[Union[str, int]],
     disable_notification: bool = False,
     reply_markup = None,
     repo: RequestsRepo = None,
@@ -26,25 +26,20 @@ async def broadcastNotifications(
     :param reply_markup: Reply markup.
     :return: Count of messages.
     """
-    count = 0
-    try:
-        for notification in notifications:
-            notification_lang = notification.language
-            
-            valid_languages = ['en', 'ru']
-            if notification_lang not in valid_languages:
-                notification_lang = 'en'
 
+   
+    try:
+        for user_id in users:
             if await send_message(
-                bot, notification.user_id, text[notification_lang], disable_notification, reply_markup[notification_lang], repo=repo
+                bot, user_id, broadcastText, disable_notification, reply_markup
             ):
                 count += 1
             await asyncio.sleep(
                 0.05
             )  # 20 messages per second (Limit: 30 messages per second)
     finally:
-        logging.info(f"{count} messages successful sent.")
-
+        pass
+    
     return count
 
 
@@ -100,15 +95,3 @@ async def send_message(
         return True
     return False
 
-
-async def get_notifications_this_hour(
-    repo: RequestsRepo, notification_hour: int, notification_type: str
-) -> List[dict]:
-    """
-        Get notifications for this hour
-
-    """
-
-    current_hour = time(notification_hour,0,0)
-    
-    return await repo.interventions.getNotificationsThisHour(current_hour, notification_type)

@@ -16,7 +16,7 @@ def generatePDFReport(title, listData, path, reportTemplate):
     return HTML(string=rendered_html, base_url='base_url').write_pdf()
 
 if __name__ == "__main__":
-    title = "Emotional Diary Report"
+    title = "Report"
     emotions = [
         {
             'entry_date': '2024-03-03',
