@@ -3,9 +3,9 @@ import uvicorn
 import betterlogging as bl
 import fastapi
 # from aiogram import Bot
-from fastapi import FastAPI
-from starlette.responses import JSONResponse
-from config import load_config
+from fastapi import FastAPI, Depends
+from starlette.responses import JSONResponse 
+from webapp_backend.config import load_config
 
 import hmac
 import hashlib
@@ -13,8 +13,13 @@ from urllib.parse import unquote
 
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 
+from infrastructure.database.setup import create_engine
+from infrastructure.database.setup import create_session_pool
+from infrastructure.database.repo.requests import RequestsRepo
 
-# from tgbot.config import load_config, Config
+from sqlalchemy.ext.asyncio import AsyncSession
+
+#from tgbot.config import load_config, Config
 
 app = FastAPI()
 
@@ -22,11 +27,20 @@ log_level = logging.INFO
 bl.basic_colorized_config(level=log_level)
 log = logging.getLogger('backend')
 
-config = load_config("../.env")
+config = load_config(".env")
 
 security = HTTPBasic()
+
+
 # config: Config = load_config()
-# session_pool = create_session_pool(config.db)
+db_engine=create_engine(config.db)
+session_pool = create_session_pool(db_engine)
+
+# Dependency to get DB session
+async def get_repo():
+    async with session_pool() as session:
+        yield RequestsRepo(session)
+      
 # bot = Bot(token=config.tg_bot.token)
 
 
@@ -35,8 +49,11 @@ async def webhook_endpoint(request: fastapi.Request):
     return JSONResponse(status_code=200, content={"status": "ok"})
 
 @app.get("/test")
-async def webhook_endpoint(request: fastapi.Request):
-    return JSONResponse(status_code=200, content={"status": "ok"})
+async def webhook_endpoint(request: fastapi.Request, repo: AsyncSession = Depends(get_repo)):
+    
+    message = await repo.interface.get_MessageText('welcome_not_admin')
+    
+    return JSONResponse(status_code=200, content={"status": message})
 
 # @app.get("/validate")
 # async def getVerification(request: fastapi.Request):
