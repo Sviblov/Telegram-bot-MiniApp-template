@@ -6,4 +6,4 @@ source .venv_WA_back/bin/activate
 4) Install dependencies
 pip install -r requirement.txt
 5) Run server 
-fastapi run main.py
+fastapi run webapp.py

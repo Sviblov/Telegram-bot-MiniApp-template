@@ -6,6 +6,7 @@ import fastapi
 from fastapi import FastAPI, Depends
 from starlette.responses import JSONResponse 
 from webapp_backend.config import load_config
+from fastapi.middleware.cors import CORSMiddleware
 
 import hmac
 import hashlib
@@ -23,6 +24,20 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 app = FastAPI()
 
+allowed_origins = [
+    "http://localhost:3000",  # Allow frontend origin
+    "http://127.0.0.1:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=allowed_origins,  # List of allowed origins
+    allow_credentials=True,  # Allow cookies
+    allow_methods=["*"],  # Allow all methods
+    allow_headers=["*"],  # Allow all headers
+)
+
+
 log_level = logging.INFO
 bl.basic_colorized_config(level=log_level)
 log = logging.getLogger('backend')
@@ -30,6 +45,7 @@ log = logging.getLogger('backend')
 config = load_config(".env")
 
 security = HTTPBasic()
+
 
 
 # config: Config = load_config()
@@ -48,12 +64,12 @@ async def get_repo():
 async def webhook_endpoint(request: fastapi.Request):
     return JSONResponse(status_code=200, content={"status": "ok"})
 
-@app.get("/test")
-async def webhook_endpoint(request: fastapi.Request, repo: AsyncSession = Depends(get_repo)):
+@app.get("/validation")
+async def webhook_validation(request: fastapi.Request, repo: AsyncSession = Depends(get_repo)):
     
     message = await repo.interface.get_MessageText('welcome_not_admin')
     
-    return JSONResponse(status_code=200, content={"status": message})
+    return JSONResponse(status_code=200, content={"isValid": True})
 
 # @app.get("/validate")
 # async def getVerification(request: fastapi.Request):
