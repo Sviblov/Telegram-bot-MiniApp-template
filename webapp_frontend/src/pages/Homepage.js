@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import MiniApp  from './MiniApp';
+import MiniApp from './MiniApp';
 
 function HomePage() {
   const navigate = useNavigate();
+
+
 
   useEffect(() => {
     const userIsValid = validateUser();
@@ -22,10 +24,14 @@ function HomePage() {
 }
 
 function validateUser() {
+  const debug = process.env.REACT_APP_DEBUG === 'true'
 
-
-  // Replace with your actual validation logic
-  return true; // For demonstration, always return false
+  if (debug) {
+   
+    return true; // For demonstration, always return false
+  } else {
+    return false;
+  }
 }
 
 export default HomePage;
