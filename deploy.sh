@@ -2,7 +2,7 @@
 
 sudo docker compose -f /home/ubuntu/TG_Bot_Boilerplate/docker-compose.yml down
 
-git -C /home/ubuntu/TG_Selflove_bot pull
+git -C /home/ubuntu/TG_Bot_Boilerplate pull
 
 #build react project
 
