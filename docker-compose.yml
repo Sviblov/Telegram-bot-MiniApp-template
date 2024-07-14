@@ -76,7 +76,7 @@ services:
 
 
   nginx:
-    container_name: selflove_nginx
+    container_name: webapp_nginx
     stop_signal: SIGINT
     restart: always
     image: nginx:latest
