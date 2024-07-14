@@ -62,7 +62,7 @@ services:
     container_name: "webapp_backend"
     stop_signal: SIGINT
     build:
-      context: ./backend
+      context: ./webapp_backend
       dockerfile: Dockerfile
     working_dir: "/usr/src/backend"
     volumes:
