@@ -2,17 +2,17 @@ aiogram==3.3.0
 environs~=9.0
 redis
 betterlogging
-
-
-#For PDF generation
-weasyprint==61.1
-Jinja2==3.1.3
-
-# # For enabling api:
-# backoff
-# ujson
-# yarl
-
 sqlalchemy~=2.0
 alembic~=1.0
 asyncpg
+
+
+## webapp backend
+
+
+uvicorn
+fastapi
+
+## scheduler
+
+schedule
