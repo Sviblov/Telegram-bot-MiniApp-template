@@ -9,9 +9,9 @@ services:
     volumes:
       - ./infrastructure:/usr/src/infrastructure
       - ./tgbot:/usr/src/tgbot
-      - requirements.txt:/usr/src/requirements.txt
-      - alembic.ini:/usr/src/alembic.ini
-      - bot.py:/usr/src/bot.py
+      - ./requirements.txt:/usr/src/requirements.txt
+      - ./alembic.ini:/usr/src/alembic.ini
+      - ./bot.py:/usr/src/bot.py
     build:
       context: .
     command: "bash docker-entrypoint.sh"
