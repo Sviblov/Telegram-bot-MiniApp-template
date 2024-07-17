@@ -13,7 +13,7 @@ services:
       - ./alembic.ini:/usr/src/alembic.ini
       - ./bot.py:/usr/src/bot.py
     build:
-      context: .
+      dockerfile: ./tgbot/Dockerfile
     command: "bash docker-entrypoint.sh"
     restart: always
     logging:
