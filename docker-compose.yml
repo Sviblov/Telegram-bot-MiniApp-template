@@ -5,13 +5,14 @@ services:
     image: "tg_bot"
     container_name: "tg_bot_boilerplate"
     stop_signal: SIGINT
-    working_dir: "/usr/src/bot"
+    working_dir: "/usr/src/"
     volumes:
       - ./infrastructure:/usr/src/infrastructure
       - ./tgbot:/usr/src/tgbot
       - ./requirements.txt:/usr/src/requirements.txt
       - ./alembic.ini:/usr/src/alembic.ini
       - ./bot.py:/usr/src/bot.py
+      - ./docker-entrypoint.sh:/usr/src/docker-entrypoint.sh
     build:
       dockerfile: ./tgbot/Dockerfile
     command: "bash docker-entrypoint.sh"
