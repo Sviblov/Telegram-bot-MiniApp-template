@@ -20,7 +20,7 @@ If you have blank postgres instance you can ran SQL commands from  scripts/postg
 
 5) Run script "Create_alembic.sh" to initiate alembic:
 
-6) Adjust file infrastructure/env.py with the floowing code: 
+6) Adjust file infrastructure/migrations/env.py with the floowing code: 
 
     from infrastructure.database.models import *
 
