@@ -13,13 +13,13 @@ steps:
   
   - type: Command
     name: Build Docker Image
-    run: |
+    command: |
       docker build -t ${REGION}.ocir.io/${NAMESPACE}/tg_bot:${IMAGE_TAG} .
   - type: Command
     name: Login to OCI Container Registry
-    run: |
+    command: |
       echo '${PASSWORD}' | docker login -u '${USER}' --password-stdin ${REGION}.ocir.io
   - type: Command
     name: Push Docker Image to OCI
-    run: |
+    command: |
       docker push ${REGION}.ocir.io/${NAMESPACE}/tg_bot:${IMAGE_TAG}
