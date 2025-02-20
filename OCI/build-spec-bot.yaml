@@ -1,22 +1,25 @@
 version: 0.1
 component: build
 timeoutInSeconds: 1000
+shell: bash
 
 steps:
-  - name: Debug Environment Variables
-    run: |
-      echo "REGION=${OCI_REGION}"
+  - type: Command
+    name: Debug Environment Variables
+    command: |
+      echo "REGION=${REGION}"
       echo "NAMESPACE=${NAMESPACE}"
       echo "IMAGE_TAG=${IMAGE_TAG}"
-
-  - name: Build Docker Image
+  
+  - type: Command
+    name: Build Docker Image
     run: |
       docker build -t ${REGION}.ocir.io/${NAMESPACE}/tg_bot:${IMAGE_TAG} .
-
-  - name: Login to OCI Container Registry
+  - type: Command
+    name: Login to OCI Container Registry
     run: |
       echo '${PASSWORD}' | docker login -u '${USER}' --password-stdin ${REGION}.ocir.io
-
-  - name: Push Docker Image to OCI
+  - type: Command
+    name: Push Docker Image to OCI
     run: |
       docker push ${REGION}.ocir.io/${NAMESPACE}/tg_bot:${IMAGE_TAG}
