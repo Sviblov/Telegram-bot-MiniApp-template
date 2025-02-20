@@ -3,7 +3,6 @@ component: build
 timeoutInSeconds: 1000
 
 steps:
-steps:
   - name: Debug Environment Variables
     run: |
       echo "REGION=${OCI_REGION}"
