@@ -3,6 +3,13 @@ component: build
 timeoutInSeconds: 1000
 
 steps:
+steps:
+  - name: Debug Environment Variables
+    run: |
+      echo "REGION=${OCI_REGION}"
+      echo "NAMESPACE=${NAMESPACE}"
+      echo "IMAGE_TAG=${IMAGE_TAG}"
+
   - name: Build Docker Image
     run: |
       docker build -t ${REGION}.ocir.io/${NAMESPACE}/tg_bot:${IMAGE_TAG} .
