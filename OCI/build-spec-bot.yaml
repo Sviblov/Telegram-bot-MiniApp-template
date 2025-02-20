@@ -5,12 +5,12 @@ timeoutInSeconds: 1000
 steps:
   - name: Build Docker Image
     run: |
-      docker build -t ${OCI_REGION}.ocir.io/${NAMESPACE}/tg_bot:${IMAGE_TAG} .
+      docker build -t ${REGION}.ocir.io/${NAMESPACE}/tg_bot:${IMAGE_TAG} .
 
   - name: Login to OCI Container Registry
     run: |
-      echo '${OCIR_PASSWORD}' | docker login -u '${OCIR_USER}' --password-stdin ${OCI_REGION}.ocir.io
+      echo '${PASSWORD}' | docker login -u '${USER}' --password-stdin ${REGION}.ocir.io
 
   - name: Push Docker Image to OCI
     run: |
-      docker push ${OCI_REGION}.ocir.io/${NAMESPACE}/tg_bot:${IMAGE_TAG}
+      docker push ${REGION}.ocir.io/${NAMESPACE}/tg_bot:${IMAGE_TAG}
