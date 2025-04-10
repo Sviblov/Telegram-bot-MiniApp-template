@@ -31,7 +31,7 @@ function validateUser() {
   
   if (debug) {
    
-    return false; // For demonstration, always return false
+    return true; // For demonstration, always return false
   } else {
     
     const apiUrl = process.env.REACT_APP_API_URL + "/validation";

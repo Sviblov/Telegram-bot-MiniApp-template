@@ -36,19 +36,15 @@ class button(Base):
     button_text: Mapped[str]  = mapped_column(String(256))
     callback_data: Mapped[str]  = mapped_column(String(32))
     web_app_link: Mapped[str]  = mapped_column(String(256), nullable=True)
+    order: Mapped[int]  = mapped_column(BIGINT, server_default=text("0"))
     comment: Mapped[str]  = mapped_column(String(256))
 
 
     def __repr__(self):
         return f"<StandardButton {self.key} {self.language}>"
     
-    def as_keyboard(self):
-        return {
-            f'{self.key}': InlineKeyboardButton(
-            text=self.button_text,
-            callback_data=self.callback_data
-            )
-            }
+
+            
     
 
 class supported_language(Base):

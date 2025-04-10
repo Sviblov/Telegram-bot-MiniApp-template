@@ -7,7 +7,6 @@ function NotTelegram() {
     <div>
       <Placeholder
         header="Application could be launched only in Telegram"
-
       >
         <img
           alt="Telegram sticker"

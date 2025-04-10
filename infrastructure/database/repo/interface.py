@@ -44,7 +44,7 @@ class InterfaceRepo(BaseRepo):
             select(button).where(
                 button.menu_key==menu_key
                 # button.language==lang_to_use
-                )
+                ).order_by(button.order)
         )
 
         

@@ -32,4 +32,6 @@ P
 
 9) Add the bot ID into table "Users". You can firstly start bot, get an error which contains bot id and after add this id into this table
 
+10) Adjust file webapp_frontend/.env according to your webapp setup.  You should have valid certificate for SSH
 
+11) run everything in development environment using ./start_dev.sh 
