@@ -1,10 +1,11 @@
 // App.js
 import { useEffect, useState } from "react";
-import UserGreeting from "./components/UserValidated"; // Импортируем компонент
+import Homepage from "./pages/Homepage"; // Импортируем компонент
 
 function App() {
   const [user, setUser] = useState(null);
   const [isValid, setIsValid] = useState(false);
+  const [loading, setLoading] = useState(true); // Добавляем состояние загрузки
 
   useEffect(() => {
     const tg = window.Telegram.WebApp;
@@ -24,18 +25,28 @@ function App() {
         if (data.valid) {
           setIsValid(true);
           setUser(initDataUnsafe.user);
+          localStorage.setItem("token", data.token);
         } else {
           setIsValid(false);
         }
+      })
+      .catch((error) => {
+        console.error("Ошибка валидации:", error);
+        setIsValid(false);
+      })
+      .finally(() => {
+        setLoading(false); // Завершаем загрузку
       });
    
    }, []);
+ // Показываем индикатор загрузки, пока запрос выполняется
+  if (loading) return <div>🔄 Загрузка...</div>;
 
  
   if (!isValid || !user) return <div>⛔ Ошибка валидации Telegram</div>;
+   
 
-
-  return <UserGreeting user={user} />;
+  return <Homepage user={user} />;
 }
 
 export default App;

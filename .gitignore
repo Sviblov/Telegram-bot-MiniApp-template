@@ -163,4 +163,5 @@ cython_debug/
 alembic.ini
 notes.txt
 
-webapp_frontend/ssl/
+webapp_frontend/ssl
+webapp_frontend/ssl/*

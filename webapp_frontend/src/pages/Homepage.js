@@ -1,53 +1,19 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import MiniApp from './MiniApp';
-
-function HomePage() {
-  const navigate = useNavigate();
+import React from "react";
+import Counter from "../components/Counter";
 
 
-
-  useEffect(() => {
-    validateUser().then(userIsValid => {
-      if (!userIsValid) {
-        navigate('/notTelegram');
-      }
-    });
-  }, [navigate]); 
-
+function Homepage({ user }) {
+  const apiUrl = process.env.REACT_APP_API_URL;
+  const token = localStorage.getItem("token");
 
   return (
     <div>
-      <MiniApp />
+      <h1>👋 Привет, {user.first_name}!</h1>
+      <p>Ты авторизован через Telegram Mini App.</p>
+      <Counter user={user} apiUrl={apiUrl} token={token} />
+
     </div>
   );
 }
 
-function validateUser() {
-
-  
-  const debug = process.env.REACT_APP_DEBUG === 'true'
-  
-  if (debug) {
-   
-    return true; // For demonstration, always return false
-  } else {
-    
-    const apiUrl = process.env.REACT_APP_API_URL + "/validation";
-  
-    // Making a synchronous API call using axios
-    return axios.get(apiUrl, { userId: 'user123' }) // Replace with actual data
-      .then(response => {
-        return response.data.isValid;
-      })
-      .catch(error => {
-        console.error('There was a problem with the axios operation:', error);
-        return false;
-      });
-
-
-  }
-}
-
-export default HomePage;
+export default Homepage;

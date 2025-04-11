@@ -23,3 +23,13 @@ class RedisClient:
 
     async def close(self):
         await self.redis.close()
+
+    async def setToken(self, user_id: str, token: str):
+        key = f"fsm:{self.bot_id}:{user_id}:{user_id}:default:token"
+
+        await self.redis.set(key, token)
+    
+    async def getToken(self, user_id: str):
+        key = f"fsm:{self.bot_id}:{user_id}:{user_id}:default:token"
+        token = await self.redis.get(key)
+        return token

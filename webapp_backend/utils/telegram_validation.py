@@ -32,3 +32,4 @@ def validate_telegram_init_data(init_data: str, bot_token: str) -> bool:
 
     # Сравниваем вычисленный хэш с полученным
     return hmac.compare_digest(hmac_hash, received_hash)
+
