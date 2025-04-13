@@ -54,7 +54,7 @@ log = logging.getLogger('backend')
 config = load_config(".env")
 
 security = HTTPBasic()
-SECRET_KEY = "your_secret_key"
+secretKey = config.misc.secret_key
 
 
 # config: Config = load_config()
@@ -71,7 +71,7 @@ redisClient=RedisClient(config.redis.redis_host, config.redis.redis_port,config.
 def verify_token(token: str = Header(...)):
     try:
         # Декодируем токен
-        payload = jwt.decode(token, SECRET_KEY, algorithms=["HS256"])
+        payload = jwt.decode(token, secretKey, algorithms=["HS256"])
         return payload
     except jwt.ExpiredSignatureError:
         raise HTTPException(status_code=401, detail="Token expired")
@@ -83,6 +83,7 @@ def verify_token(token: str = Header(...)):
 
 @app.get("/api")
 async def webhook_endpoint(request: fastapi.Request):
+
     return JSONResponse(status_code=200, content={"status": "ok"})
 
 @app.post("/validate")
@@ -104,16 +105,19 @@ async def validate(data: InitData):
         "user_id": user_data["id"],  # ID пользователя
         "exp": datetime.now(timezone.utc)+ timedelta(hours=1),  # Время истечения токена
     }
-    token = jwt.encode(payload, SECRET_KEY, algorithm="HS256")
+    token = jwt.encode(payload, secretKey, algorithm="HS256")
 
     return {"valid": is_valid,"token": token}
 
 
 @app.get("/counter/{user_id}")
-async def get_counter(user_id: int, payload: dict = Depends(verify_token)):
+async def get_counter(user_id: int, payload: dict = Depends(verify_token), repo: RequestsRepo = Depends(get_repo)):
     """
     Возвращает текущее значение счетчика.
     """
+    userData = await repo.users.get_user(user_id)
+    log.info(f"User from DB: {userData.full_name} ")
+    
     if payload["user_id"] != user_id:
         raise HTTPException(status_code=403, detail="Access denied")
    

@@ -1,5 +1,5 @@
 from aiogram.fsm.context import FSMContext
-from ..services.services import delete_message
+from tgbot.services.services import delete_message
 
 from infrastructure.database.models import message as logmessage
 from infrastructure.database.repo.requests import RequestsRepo

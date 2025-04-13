@@ -6,12 +6,13 @@ from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.fsm.storage.redis import RedisStorage, DefaultKeyBuilder
 
-from tgbot.config import load_config, Config
+from config import load_config, Config
 from tgbot.handlers import routers_list
 from tgbot.middlewares.config import ConfigMiddleware
 from tgbot.middlewares.database import DatabaseMiddleware
 from tgbot.middlewares.messageLogging import LoggingMiddleware
 from tgbot.services import services
+
 
 from infrastructure.database.setup import create_engine
 from infrastructure.database.setup import create_session_pool
@@ -35,7 +36,7 @@ def register_global_middlewares(dp: Dispatcher, config: Config, bot: Bot, sessio
         ConfigMiddleware(config, bot),
         DatabaseMiddleware(session_pool, bot)
     ]
-
+    
     for middleware_type in middleware_types:
         dp.message.outer_middleware(middleware_type)
         dp.callback_query.outer_middleware(middleware_type)
@@ -97,7 +98,7 @@ async def main():
 
     
 
-    config = load_config(".env")
+    config = load_config("../.env")
     storage = get_storage(config)
     
     db_engine=create_engine(config.db)

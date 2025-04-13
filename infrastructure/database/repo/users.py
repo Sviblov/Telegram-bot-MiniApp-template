@@ -48,3 +48,16 @@ class UserRepo(BaseRepo):
 
 
 
+    async def get_user(self, user_id: int):
+        """
+        Retrieves a user from the database by user_id.
+        :param user_id: The user's ID.
+        :return: User object, None if not found.
+        """
+        select_stmt = (
+            select(User)
+            .where(User.user_id == user_id)
+        )
+        result = await self.session.execute(select_stmt)
+
+        return result.scalar_one_or_none()

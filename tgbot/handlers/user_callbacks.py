@@ -12,7 +12,7 @@ from aiogram import Bot
 from infrastructure.database.repo.requests import RequestsRepo
 from infrastructure.database.models.users import User
 
-from ..states import UserStates
+from tgbot.states import UserStates
 
 
 

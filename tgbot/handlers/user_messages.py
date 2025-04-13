@@ -9,12 +9,12 @@ from aiogram import Bot
 from infrastructure.database.repo.requests import RequestsRepo
 from infrastructure.database.models.users import User
 
-from ..services.services import send_message, delete_message
-from ..services.put_user_to_default import putUserToDefault
+from tgbot.services.services import send_message, delete_message
+from tgbot.services.put_user_to_default import putUserToDefault
 
 from tgbot.keyboards.inline import StandardMenu
 
-from ..states import UserStates
+from tgbot.states import UserStates
 
 
 user_messages_router = Router()

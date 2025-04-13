@@ -1,5 +1,7 @@
+import { Button, Space, Typography } from "antd";
 import { useState, useEffect } from "react";
 
+const { Text } = Typography;
 
 
 interface CounterProps {
@@ -59,11 +61,12 @@ function Counter({ user, token }: CounterProps) {
   
 
     return (
-      <div>
-        <p>Счётчик: {counter}</p>
-        <button onClick={increment}>Увеличить</button>
-        <button onClick={decrement}>Уменьшить</button>
-      </div>
+      <Space direction="vertical" align="center" style={{ width: "100%" }}>
+        <Text strong style={{ fontSize: "18px" }}>Счётчик: {counter}</Text>
+        
+        <Button type="primary" size="large" onClick={increment}>Увеличить</Button>
+        <Button type="primary" size="large" onClick={decrement}>Уменьшить</Button>
+      </Space>
     );
   }
 

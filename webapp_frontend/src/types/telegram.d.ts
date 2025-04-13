@@ -178,6 +178,7 @@ declare global {
       }
     }
     type TelegramWebAppUser = TelegramWebAppUser
+    type TelegramWebAppThemeParams = TelegramWebAppThemeParams
   }
 
 export {}

@@ -4,7 +4,7 @@ from aiogram.types import Message
 from aiogram.fsm.context import FSMContext
 
 from tgbot.filters.admin import AdminFilter
-from ..states import UserStates
+from tgbot.states import UserStates
 
 from aiogram import Bot
 
@@ -13,7 +13,7 @@ from infrastructure.database.models.users import User
 
 from ..services.services import send_message, delete_message
 
-from tgbot.keyboards.inline import StandardMenu
+from ..keyboards.inline import StandardMenu
 from ..services.put_user_to_default import putUserToDefault
 
 
