@@ -6,7 +6,7 @@ BOT_PID=$!
 
 echo "🌐 Starting React Frontend..."
 cd webapp_frontend
-npm start &
+npm run dev &
 FRONTEND_PID=$!
 cd ..
 

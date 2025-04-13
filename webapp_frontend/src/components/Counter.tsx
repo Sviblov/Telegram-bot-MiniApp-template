@@ -1,14 +1,22 @@
-import React, { useState, useEffect } from "react";
-import { Button } from '@telegram-apps/telegram-ui';
+import { useState, useEffect } from "react";
 
 
-function Counter({ user, apiUrl, token }) {
-  const [counter, setCounter] = useState(0);
-  // const apiUrl = process.env.REACT_APP_API_URL
- 
+
+interface CounterProps {
+  user: TelegramWebAppUser;
+  token: string | null;
+}
+
+
+function Counter({ user, token }: CounterProps) {
+  const [counter, setCounter] = useState<number>(0);
+
+
+  const apiUrl = `${import.meta.env.VITE_APP_API_URL}/counter`; 
     // Получение начального значения счетчика с backend
+
     useEffect(() => {
-      fetch(apiUrl+ "/counter/"+ user.id, {
+      fetch(apiUrl+ '/' +user.id, {
         method: "GET",
         headers: {
           "token": `${token}`, // Передаём токен в заголовке
@@ -28,14 +36,15 @@ function Counter({ user, apiUrl, token }) {
       setCounter(newCounter);
       updateCounterOnBackend(newCounter);
     };
+
   const decrement = () => {
       const newCounter = counter - 1;
       setCounter(newCounter);
       updateCounterOnBackend(newCounter);
     };
   
-  const updateCounterOnBackend = (newCounter) => {
-      fetch(apiUrl+ "/counter", {
+  const updateCounterOnBackend = (newCounter: number) => {
+      fetch(apiUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json", "token": `${token}`,},
         body: JSON.stringify({
@@ -52,8 +61,8 @@ function Counter({ user, apiUrl, token }) {
     return (
       <div>
         <p>Счётчик: {counter}</p>
-        <Button onClick={increment}>Увеличить</Button>
-        <Button onClick={decrement}>Уменьшить</Button>
+        <button onClick={increment}>Увеличить</button>
+        <button onClick={decrement}>Уменьшить</button>
       </div>
     );
   }
