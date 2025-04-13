@@ -146,13 +146,16 @@ class Miscellaneous:
 
     other_params: str = None
     secret_key: str = None
+    debug: bool = False
+
     @staticmethod
     def from_env(env: Env):
         """
         Creates the Miscellaneous object from environment variables.
         """
         secret_key = env.str("SECRET_KEY")
-        return Miscellaneous(secret_key=secret_key)
+        debug = env.bool("DEBUG", False)
+        return Miscellaneous(secret_key=secret_key, debug=debug)
 
 @dataclass
 class Config:

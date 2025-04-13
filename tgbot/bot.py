@@ -98,7 +98,7 @@ async def main():
 
     
 
-    config = load_config("../.env")
+    config = load_config(".env")
     storage = get_storage(config)
     
     db_engine=create_engine(config.db)

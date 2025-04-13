@@ -1,5 +1,5 @@
 import Counter from "./Counter";
-import { Card, Typography, theme as antdTheme } from 'antd'
+import { Card, Typography } from 'antd'
 
 
 const { Title, Paragraph } = Typography

@@ -29,18 +29,25 @@ from datetime import datetime, timedelta, timezone
 
 
 #     setup_logging()
+config = load_config(".env")
 app = FastAPI()
 
-allowed_origins = [
-    "https://localhost:4000",  # Allow frontend origin
-    "https://127.0.0.1:4000",
-    "http://10.0.0.137:4000",
-]
+if config.misc.debug:
+    allowed_origins = [
+        "*"   # Allow frontend origin
+    ]
+else:
+    allowed_origins = [
+        "https://your-production-domain.com",  # Allow frontend origin
+        "https://localhost:4000",  # Allow frontend origin
+        "https://127.0.0.1:4000",
+        "http://10.0.0.137:4000",
+    ]
 
 app.add_middleware(
     CORSMiddleware,
-    # allow_origins=allowed_origins,  # List of allowed origins
-    allow_origins=["*"],  # Allow all origins
+    allow_origins=allowed_origins,  # List of allowed origins
+    
     allow_credentials=True,  # Allow cookies
     allow_methods=["*"],  # Allow all methods
     allow_headers=["*"],  # Allow all headers
@@ -51,7 +58,7 @@ log_level = logging.INFO
 bl.basic_colorized_config(level=log_level)
 log = logging.getLogger('backend')
 
-config = load_config(".env")
+
 
 security = HTTPBasic()
 secretKey = config.misc.secret_key
