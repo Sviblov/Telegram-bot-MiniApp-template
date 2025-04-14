@@ -1,37 +1,76 @@
 # TG_Bot_Boilerplate
 
-Steps to deploy:
+This project combines:
 
-1) Create postgres DB and ReddisDB
+- **A Telegram bot** built using `aiogram`
+- **A web application** with a React + TypeScript frontend and a FastAPI backend
+- **State and cache storage** powered by `Redis`
+- **A persistent database** using `PostgreSQL`
 
-If you have blank postgres instance you can ran SQL commands from  scripts/postgres/create_db.sql in order to create DB and user/password
+The goal is to create a fully functional Telegram bot with:
 
-2) Provide credentials for DB and for Reddis into .env file
+- A convenient web interface
+- A REST API
+- A database for storing user data and interactions
 
-3) Create python virtual environment and install dependencies:
-    
-    virtualenv venv
+## Steps to Deploy
 
-    source venv/bin/activate
+### 1. Create PostgreSQL and Redis Databases
 
-    pip install -r requirements.txt
+- If you have a blank PostgreSQL instance, you can run the SQL commands from `scripts/postgres/create_db.sql` to create the database, user, and password.
 
-4) provide DB details into file alembic.ini
+### 2. Provide Credentials
 
-5) Run script "Create_alembic.sh" to initiate alembic:
+- Add credentials for the database and Redis into the `.env` file.
 
-6) Adjust file infrastructure/migrations/env.py with the floowing code: 
+### 3. Set Up Python Environment
 
-    from infrastructure.database.models import *
+- Create a Python virtual environment and install dependencies:
 
-    row25: target_metadata = Base.metadata
+  ```bash
+  virtualenv venv
+  source venv/bin/activate
+  pip install -r requirements.txt
+  ```
 
-7) Create and run migrations using scripts from alembic folder
+### 4. Provide Database Details
 
-8) Populate DB using SQL scripts from infrastructure/datafiles
+- Add the database details into the `alembic.ini` file.
 
-9) Add the bot ID into table "Users". You can firstly start bot, get an error which contains bot id and after add this id into this table
+### 5. Run Alembic Script
 
-10) Adjust file webapp_frontend/.env according to your webapp setup.  You should have valid certificate for SSH
+- Run the script `Create_alembic.sh` to initiate Alembic.
 
-11) run everything in development environment using ./start_dev.sh 
+### 6. Adjust Alembic Environment
+
+- Adjust the file `infrastructure/migrations/env.py` with the following code:
+
+  ```python
+  from infrastructure.database.models import *
+
+  target_metadata = Base.metadata
+  ```
+
+### 7. Create and Run Migrations
+
+- Create and run migrations using scripts from the `alembic` folder.
+
+### 8. Populate Database
+
+- Populate the database using SQL scripts from `infrastructure/datafiles`.
+
+### 9. Add Bot ID
+
+- Add the bot ID into the `Users` table. You can first start the bot, get an error that contains the bot ID, and then add this ID into the table.
+
+### 10. Adjust Webapp Frontend
+
+- Adjust the file `webapp_frontend/.env` according to your webapp setup. You should have a valid certificate for SSH.
+
+### 11. Run in Development Environment
+
+- To run everything in the development environment, use `./start_dev.sh`.
+
+### 12. Run in Production
+
+- To run everything in production, use `./prod_deploy.sh` (Docker should be installed).
