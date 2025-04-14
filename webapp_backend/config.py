@@ -106,15 +106,16 @@ class RedisConfig:
     redis_pass: Optional[str]
     redis_port: Optional[int]
     redis_host: Optional[str]
+    redis_db: Optional[int] 
 
     def dsn(self) -> str:
         """
         Constructs and returns a Redis DSN (Data Source Name) for this database configuration.
         """
         if self.redis_pass:
-            return f"redis://:{self.redis_pass}@{self.redis_host}:{self.redis_port}/0"
+            return f"redis://:{self.redis_pass}@{self.redis_host}:{self.redis_port}/{self.redis_db}"
         else:
-            return f"redis://{self.redis_host}:{self.redis_port}/0"
+            return f"redis://{self.redis_host}:{self.redis_port}/{self.redis_db}"
 
     @staticmethod
     def from_env(env: Env):
@@ -124,9 +125,10 @@ class RedisConfig:
         redis_pass = env.str("REDIS_PASSWORD")
         redis_port = env.int("REDIS_PORT")
         redis_host = env.str("REDIS_HOST")
+        redis_db= env.int("REDIS_DB")
 
         return RedisConfig(
-            redis_pass=redis_pass, redis_port=redis_port, redis_host=redis_host
+            redis_pass=redis_pass, redis_port=redis_port, redis_host=redis_host, redis_db=redis_db
         )
 
 
@@ -143,7 +145,10 @@ class Miscellaneous:
     other_params : str, optional
         A string used to hold other various parameters as required (default is None).
     """
-
+    backend_host: str = None
+    backend_port: int = None
+    frontend_host: str = None
+    frontend_port: int = None
     other_params: str = None
     secret_key: str = None
     debug: bool = False
@@ -155,7 +160,19 @@ class Miscellaneous:
         """
         secret_key = env.str("SECRET_KEY")
         debug = env.bool("DEBUG", False)
-        return Miscellaneous(secret_key=secret_key, debug=debug)
+        backend_host = env.str("BACKEND_HOST")
+        backend_port = env.int("BACKEND_PORT")
+        frontend_host = env.str("FRONTEND_HOST")
+        frontend_port = env.int("FRONTEND_PORT")
+
+        return Miscellaneous(
+            secret_key=secret_key, 
+            debug=debug, 
+            backend_host=backend_host, 
+            backend_port=backend_port, 
+            frontend_host=frontend_host, 
+            frontend_port=frontend_port
+            )  
 
 @dataclass
 class Config:

@@ -8,7 +8,7 @@ ENV PYTHONUNBUFFERED=1
 COPY ./tgbot /usr/src/tgbot
 COPY ./infrastructure /usr/src/infrastructure
 COPY requirements.txt /usr/src
-COPY ./tgbot/bot.py /usr/src/tgbot
+
 COPY alembic.ini /usr/src
 COPY docker-entrypoint-bot.sh /usr/src
 # Копируем код бота

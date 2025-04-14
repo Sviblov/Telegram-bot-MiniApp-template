@@ -12,6 +12,7 @@ asyncpg
 
 uvicorn
 fastapi
+PyJWT>=2.0.0
 
 ## scheduler
 

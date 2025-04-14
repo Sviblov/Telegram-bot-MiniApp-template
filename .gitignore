@@ -165,3 +165,10 @@ notes.txt
 
 nginx/ssl
 nginx/ssl/*
+
+.env
+.env.dev
+.env.development
+.env.production
+.env.prod
+

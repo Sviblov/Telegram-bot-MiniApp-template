@@ -25,7 +25,7 @@ If you have blank postgres instance you can ran SQL commands from  scripts/postg
     from infrastructure.database.models import *
 
     row25: target_metadata = Base.metadata
-P
+
 7) Create and run migrations using scripts from alembic folder
 
 8) Populate DB using SQL scripts from infrastructure/datafiles

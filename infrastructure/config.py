@@ -148,6 +148,17 @@ class Miscellaneous:
     """
 
     other_params: str = None
+    secret_key: str = None
+    debug: bool = False
+
+    @staticmethod
+    def from_env(env: Env):
+        """
+        Creates the Miscellaneous object from environment variables.
+        """
+        secret_key = env.str("SECRET_KEY")
+        debug = env.bool("DEBUG", False)
+        return Miscellaneous(secret_key=secret_key, debug=debug)
 
 
 @dataclass
@@ -192,5 +203,5 @@ def load_config(path: str = None) -> Config:
         tg_bot=TgBot.from_env(env),
         db=DbConfig.from_env(env),
         redis=RedisConfig.from_env(env),
-        misc=Miscellaneous(),
+        misc=Miscellaneous.from_env(env),
     )

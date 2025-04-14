@@ -29,6 +29,12 @@ from datetime import datetime, timedelta, timezone
 
 
 #     setup_logging()
+log_level = logging.INFO
+bl.basic_colorized_config(level=log_level)
+log = logging.getLogger('backend')
+
+
+
 config = load_config(".env")
 app = FastAPI()
 
@@ -38,10 +44,9 @@ if config.misc.debug:
     ]
 else:
     allowed_origins = [
-        "https://your-production-domain.com",  # Allow frontend origin
-        "https://localhost:4000",  # Allow frontend origin
-        "https://127.0.0.1:4000",
-        "http://10.0.0.137:4000",
+        f"https://{config.misc.frontend_host}:{config.misc.frontend_port}",  # Allow frontend origin
+        "http://localhost:4000",  # Allow frontend origin
+        "http://127.0.0.1:4000",
     ]
 
 app.add_middleware(
@@ -54,9 +59,7 @@ app.add_middleware(
 )
 
 
-log_level = logging.INFO
-bl.basic_colorized_config(level=log_level)
-log = logging.getLogger('backend')
+
 
 
 

@@ -27,7 +27,7 @@ import services
 from infrastructure.database.setup import create_engine
 from infrastructure.database.setup import create_session_pool
 
-from tgbot.config import load_config
+from infrastructure.config import load_config
 from tgbot.keyboards.inline import StandardButtonMenu
 
 

@@ -46,7 +46,7 @@ class RequestsRepo:
 
 if __name__ == "__main__":
     from infrastructure.database.setup import create_session_pool
-    from tgbot.config import Config
+    from infrastructure.config import Config
 
     async def example_usage(config: Config):
         """

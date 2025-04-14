@@ -1,7 +1,12 @@
 #!/bin/bash
 
+# Загрузка переменных окружения из .env
+if [ -f .env ]; then
+  export $(grep -v '^#' .env | xargs)
+fi
+
 echo "🚀 Starting Telegram Bot..."
-/home/ubuntu/TG_Bot_Boilerplate/.venv/bin/python /home/ubuntu/TG_Bot_Boilerplate/tgbot/__main__.py &
+/home/ubuntu/TG_Bot_Boilerplate/.venv/bin/python tgbot &
 BOT_PID=$!
 
 echo "🌐 Starting React Frontend..."
@@ -12,11 +17,12 @@ cd ..
 
 echo "⚙️ Starting FastAPI Backend with Uvicorn..."
 
-uvicorn webapp_backend.webapp:app --host 0.0.0.0 --port 8000 \
-  --ssl-keyfile=./nginx/ssl/key.pem \
-  --ssl-certfile=./nginx/ssl/cert.pem \
+uvicorn webapp_backend.webapp:app --host ${BACKEND_HOST} --port ${BACKEND_PORT} \
+  --ssl-keyfile=${SSL_KEY} \
+  --ssl-certfile=${SSL_CERT} \
   --reload &
 BACKEND_PID=$!
+
 
 
 echo ""

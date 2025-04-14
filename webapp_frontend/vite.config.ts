@@ -12,9 +12,11 @@ export default defineConfig({
   server: {
     host: process.env.HOST || 'localhost',
     port: Number(process.env.PORT) || 4000,
-    https: {
-      key: fs.readFileSync(path.resolve(__dirname, process.env.SSL_KEY_PATH || 'ssl/key.pem')),
-      cert: fs.readFileSync(path.resolve(__dirname, process.env.SSL_CERT_PATH || 'ssl/cert.pem')),
-    },
+    ...(process.env.HTTPS === 'true' && {
+      https: {
+        key: fs.readFileSync(path.resolve(__dirname, process.env.SSL_KEY_PATH || 'ssl/key.pem')),
+        cert: fs.readFileSync(path.resolve(__dirname, process.env.SSL_CERT_PATH || 'ssl/cert.pem')),
+      },
+    }),
   },
 })
