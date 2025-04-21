@@ -9,20 +9,30 @@ from typing import List
 
 def getButton(button: button):
         
-        if button.web_app_link:
+
+        if button.type == 'webapp':
             webapp = WebAppInfo(
-            url=button.web_app_link
+            url=button.data
             )
             return InlineKeyboardButton(
                 text=button.button_text,
                 web_app=webapp
             )
-        else:
+        elif button.type == 'url':
             return InlineKeyboardButton(
                 text=button.button_text,
-                callback_data=button.callback_data
+                url=button.data
             )
-
+        elif button.type=='callback':
+            return InlineKeyboardButton(
+                text=button.button_text,
+                callback_data=button.data
+            )
+        elif button.type=='invoice':
+            return InlineKeyboardButton(
+                text=button.button_text,
+            )
+        
 def StandardMenu(ButtonsData: List[button]):
 
     keyboard = InlineKeyboardBuilder()

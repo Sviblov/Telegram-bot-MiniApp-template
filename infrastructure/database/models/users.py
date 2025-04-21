@@ -1,6 +1,6 @@
 from typing import Optional
 
-from sqlalchemy import String
+from sqlalchemy import ForeignKey, String
 from sqlalchemy import text, BIGINT, Boolean, true
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
@@ -19,4 +19,4 @@ class User(Base, TimestampMixin, TableNameMixin):
     language: Mapped[str] = mapped_column(String(10), server_default=text("'en'"))
 
     def __repr__(self):
-        return f"<User {self.user_id} {self.username} {self.full_name}>"
+        return f"<Invoice {self.invoice_id} {self.user_id} {self.amount}>"

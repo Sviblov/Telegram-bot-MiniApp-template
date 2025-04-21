@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from infrastructure.database.repo.users import UserRepo
 from infrastructure.database.repo.interface import InterfaceRepo
 from infrastructure.database.repo.log_message import logMessageRepo
-
+from infrastructure.database.repo.payment import PaymentRepo
 
 from infrastructure.database.setup import create_engine
 
@@ -40,7 +40,10 @@ class RequestsRepo:
 
         return logMessageRepo(self.session)
 
-    
+    @property
+    def payment(self) -> PaymentRepo:
+
+        return PaymentRepo(self.session)
 
 
 

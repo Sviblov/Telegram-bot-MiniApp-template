@@ -10,7 +10,7 @@ from infrastructure.database.repo.requests import RequestsRepo
 from infrastructure.database.models.users import User
 
 from tgbot.services.services import send_message, delete_message
-from tgbot.services.put_user_to_default import putUserToDefault
+from tgbot.services.services import putUserToDefault
 
 from tgbot.keyboards.inline import StandardMenu
 

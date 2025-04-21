@@ -11,7 +11,7 @@ COPY ./infrastructure /usr/src/infrastructure
 COPY ./webapp_backend /usr/src/webapp_backend
 
 COPY alembic.ini /usr/src
-COPY docker-entrypoint-webapp_backend.sh /usr/src
+COPY ./webapp_backend/docker-entrypoint-webapp_backend.sh /usr/src
 
 RUN pip install -r /usr/src/requirements.txt --pre
 

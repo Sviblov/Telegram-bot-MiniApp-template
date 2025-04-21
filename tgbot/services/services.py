@@ -1,12 +1,42 @@
 import asyncio
 import logging
+from aiogram import types
 from typing import Union, List
 
 from aiogram import Bot
 from aiogram import exceptions
 from aiogram.types import InlineKeyboardMarkup
 from infrastructure.database.repo.requests import RequestsRepo
+from aiogram.fsm.context import FSMContext
 
+
+
+async def putUserToDefault(
+    user,
+    repo: RequestsRepo,
+    bot: Bot,
+    state: FSMContext
+):
+    """
+    Put user to default state
+    """
+
+    #deleting messages
+    allMessages = await repo.log_message.get_messages(user.user_id)
+    
+    for message in allMessages:
+        await delete_message(bot, message[0],message[1])
+        
+    #deleting from logs
+    await repo.log_message.delete_messages(user.user_id)
+
+    await state.clear()
+    await state.set_state("default")
+    
+    # Set user to default state in the database
+    await repo.users.deleteUser(user.user_id)
+    
+   
 async def send_message(
     bot: Bot,
     user_id: Union[int, str],
@@ -155,4 +185,30 @@ async def send_poll(
     else:
         logging.info(f"Poll sent [ID:{user_id}]: success")
         return replyQuestionaire
+    return False
+
+async def send_invoice(
+    bot: Bot,
+    chat_id: Union[int, str],
+    invoiceText: str,
+    invoiceTitle: str,
+    amount: int,
+    payload: str,
+    
+)->bool:
+    try:
+        replyInvoice = await bot.send_invoice(
+            chat_id=chat_id, 
+            title=invoiceTitle, 
+            description=invoiceText,
+            provider_token="", 
+            currency='XTR', 
+            prices=[types.LabeledPrice(label='Subscription', amount=amount)], 
+            payload=payload
+            )
+    except exceptions.TelegramBadRequest as e:
+        logging.error("Telegram server says - Bad Request")
+    else:
+        logging.info(f"Invoice sent [ID:{chat_id}]: success")
+        return replyInvoice
     return False

@@ -33,15 +33,15 @@ class button(Base):
     key: Mapped[str]  = mapped_column(String(32), primary_key=True, autoincrement=False)
     menu_key: Mapped[str]  = mapped_column(String(32),primary_key=True, autoincrement=False)
     language: Mapped[str] = mapped_column(String(10), primary_key=True, server_default=text("'en'"))
+    type: Mapped[str] = mapped_column(String(32), server_default=text("'callback'"))
     button_text: Mapped[str]  = mapped_column(String(256))
-    callback_data: Mapped[str]  = mapped_column(String(32))
-    web_app_link: Mapped[str]  = mapped_column(String(256), nullable=True)
+    data: Mapped[str]  = mapped_column(String(32), nullable=True)
     order: Mapped[int]  = mapped_column(BIGINT, server_default=text("0"))
     comment: Mapped[str]  = mapped_column(String(256))
 
 
     def __repr__(self):
-        return f"<StandardButton {self.key} {self.language}>"
+        return f"<StandardButton {self.key} {self.type} {self.language}>"
     
 
             

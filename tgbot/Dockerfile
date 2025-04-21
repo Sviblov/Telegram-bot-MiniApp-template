@@ -10,7 +10,7 @@ COPY ./infrastructure /usr/src/infrastructure
 COPY requirements.txt /usr/src
 
 COPY alembic.ini /usr/src
-COPY docker-entrypoint-bot.sh /usr/src
+COPY ./tgbot/docker-entrypoint-bot.sh /usr/src
 # Копируем код бота
 
 

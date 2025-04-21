@@ -5,6 +5,8 @@ import betterlogging as bl
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.fsm.storage.redis import RedisStorage, DefaultKeyBuilder
+from aiogram.client.default import DefaultBotProperties
+
 
 from infrastructure.config import load_config, Config
 from tgbot.handlers import routers_list
@@ -40,7 +42,8 @@ def register_global_middlewares(dp: Dispatcher, config: Config, bot: Bot, sessio
     for middleware_type in middleware_types:
         dp.message.outer_middleware(middleware_type)
         dp.callback_query.outer_middleware(middleware_type)
-        dp.poll_answer.outer_middleware(middleware_type)
+        dp.pre_checkout_query.outer_middleware(middleware_type)
+
     #Logging only messages, not callback
     dp.message.outer_middleware(LoggingMiddleware(session_pool, bot))
    
@@ -104,7 +107,7 @@ async def main():
     db_engine=create_engine(config.db)
     session_pool=create_session_pool(db_engine)
 
-    bot = Bot(token=config.tg_bot.token, parse_mode="HTML")
+    bot = Bot(token=config.tg_bot.token, default=DefaultBotProperties(parse_mode='HTML'))
     
     dp = Dispatcher(storage=storage)
     

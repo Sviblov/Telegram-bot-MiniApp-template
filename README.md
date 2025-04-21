@@ -66,11 +66,15 @@ The goal is to create a fully functional Telegram bot with:
 ### 10. Adjust Webapp Frontend
 
 - Adjust the file `webapp_frontend/.env` according to your webapp setup. You should have a valid certificate for SSH.
+- For production adjust file .env.prod
 
 ### 11. Run in Development Environment
 
 - To run everything in the development environment, use `./start_dev.sh`.
+- In Dev
 
-### 12. Run in Production
+### 12. For Production
 
+- Adjust ports configuration in nginx/nginx.conf and in webapp_frontend/enginx.conf
+- in Prod For backend port 8000 is exposed, for frontend port 4001 is exposed, but it for outbound connection only port 4000 is required for nginx.
 - To run everything in production, use `./prod_deploy.sh` (Docker should be installed).
