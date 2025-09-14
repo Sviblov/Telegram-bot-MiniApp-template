@@ -2,7 +2,8 @@
 
 # === Create network if it doesn't exist ===
 docker network inspect tgbotnetwork >/dev/null 2>&1 || docker network create tgbotnetwork
-
+docker network connect tgbotnetwork redis
+docker network connect postgres_dev redis
 
 # # === TG BOT ===
 docker rm -f tg_bot 2>/dev/null || true
