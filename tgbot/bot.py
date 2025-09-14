@@ -5,7 +5,7 @@ import betterlogging as bl
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.fsm.storage.redis import RedisStorage, DefaultKeyBuilder
-from aiogram.client.default import DefaultBotProperties
+from aiogram.enums import ParseMode
 
 
 from infrastructure.config import load_config, Config
@@ -107,7 +107,7 @@ async def main():
     db_engine=create_engine(config.db)
     session_pool=create_session_pool(db_engine)
 
-    bot = Bot(token=config.tg_bot.token, default=DefaultBotProperties(parse_mode='HTML'))
+    bot = Bot(token=config.tg_bot.token, parse_mode=ParseMode.HTML)
     
     dp = Dispatcher(storage=storage)
     

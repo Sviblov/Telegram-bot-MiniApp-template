@@ -7,10 +7,12 @@ else
   echo "⚠️ .env file not found. Some variables might be missing."
 fi
 
+sudo fuser -k 8000/tcp
+sudo fuser -k 4000/tcp
 # Функции запуска
 start_bot() {
   echo "🚀 Starting Telegram Bot..."
-  /home/ubuntu/TG_Bot_Boilerplate/.venv/bin/python tgbot &
+  /home/ubuntu/Telegram-bot-MiniApp-template/venv/bin/python tgbot &
   BOT_PID=$!
   echo "✅ Bot PID: $BOT_PID"
 }

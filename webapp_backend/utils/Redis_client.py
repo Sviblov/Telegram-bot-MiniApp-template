@@ -1,7 +1,8 @@
 import redis.asyncio as redis
 from typing import Optional
 import json
-
+import logging
+loger = logging.getLogger('backend')
 class RedisClient:
 
     def __init__(self, host: str, port: int, password:str, bot_token: str, db: int=0):
@@ -12,6 +13,7 @@ class RedisClient:
 
     async def setData(self, user_id: str, value: str):
         key= f"fsm:{self.bot_id}:{user_id}:{user_id}:default:data"
+        loger.info(f"Key for Redis: {key}")
         value_json = json.dumps(value)  # Сериализация словаря в JSON
         await self.redis.set(key, value_json)
 

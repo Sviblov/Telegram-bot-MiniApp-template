@@ -76,7 +76,7 @@ async def get_repo():
         yield RequestsRepo(session)
 
 
-redisClient=RedisClient(config.redis.redis_host, config.redis.redis_port,config.redis.redis_pass, config.tg_bot.token)
+redisClient=RedisClient(config.redis.redis_host, config.redis.redis_port,config.redis.redis_pass, config.tg_bot.token, config.redis.redis_db)
 
 def verify_token(token: str = Header(...)):
     try:
